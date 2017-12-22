@@ -13,14 +13,14 @@ var Promise = require('bluebird');
 var promisification = require('./promisification.js');
 var promConstructor = require('./promiseConstructor.js');
 
-var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
-  return promConstructor.pluckFirstLineFromFileAsync(readFilePath)
-    .then(firstLine => promisification.getGitHubProfileAsync(firstLine))
-    .then(body => {
-      var promisifiedWriteFile = Promise.promisify(fs.writeFile);
-      return promisifiedWriteFile(writeFilePath, JSON.stringify(body));
+var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {  // with promise, should always return the promise!
+  return promConstructor.pluckFirstLineFromFileAsync(readFilePath)  // return promise, after return first line of file (aka user)
+    .then(firstLine => promisification.getGitHubProfileAsync(firstLine))  // if succeed, return profile github (aka objectbody)
+    .then(body => { // if succeed,
+      var promisifiedWriteFile = Promise.promisify(fs.writeFile); // promisify async writeFile function
+      return promisifiedWriteFile(writeFilePath, JSON.stringify(body)); // return promise, after writing body to file
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error(err));  // err
 };
 
 // Export these functions so we can test them

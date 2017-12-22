@@ -7,7 +7,7 @@ var request = require('request');
 
 // This function should retrieve the first line of the file at `filePath`
 var pluckFirstLineFromFile = function (filePath) {
-  var callback = arguments[arguments.length - 1];
+  var callback = arguments[arguments.length - 1]; // in specs, last argument is callback
   fs.readFile(filePath, (err, data) => {
     if (err) {
       callback(err);
@@ -21,7 +21,7 @@ var pluckFirstLineFromFile = function (filePath) {
 // This function should retrieve the status code of a GET request to `url`
 var getStatusCode = function (url) {
   var callback = arguments[arguments.length - 1];
-  request(url, function(error, response, body) {
+  request(url, function(error, response, body) { // in specs, last argument is callback
     if (error) {
       callback(error);
     } else {
